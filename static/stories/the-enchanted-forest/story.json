@@ -1,0 +1,139 @@
+{
+  "name": "The Enchanted Forest",
+  "description": "A story about a boy who finds a magic forest",
+  "keywords": [
+    "magic",
+    "forest",
+    "boy"
+  ],
+  "isLocked": false,
+  "events": [
+    {
+      "key": "{740c0400-814a-484c-98d8-4e4949d9618e}",
+      "event": "autostart",
+      "source": "",
+      "media": "sound.mp3",
+      "attributes": {}
+    }
+  ],
+  "scenes": [
+    {
+      "key": "root",
+      "text": "# **The Enchanted Forest**\n\nNestled deep within the whispering canopies of ancient oaks and pixelated pines lies **The Enchanted Forest**—a realm where magic meets motherboard, and every leaf hides a lore-filled Easter egg. \n\nHere, wandering wizards debug spells gone awry, while mischievous fairies hack into the roots of reality itself. Venture in if you dare, but beware: one wrong turn, and you might end up in a loop of eternal quests, or worse—stuck in a pun-ishing thicket of dad jokes from the talking trees!",
+      "events": [
+        {
+          "key": "{dc384106-334c-4e2c-a3a4-69ce1143fcf3}",
+          "event": "autostart",
+          "source": "",
+          "media": "title.mp4",
+          "attributes": {}
+        },
+        {
+          "key": "{3c1fd47b-e2e0-4821-807f-56733b2a9b07}",
+          "event": "after",
+          "source": "{dc384106-334c-4e2c-a3a4-69ce1143fcf3}",
+          "media": "title.png",
+          "attributes": {}
+        }
+      ],
+      "connections": []
+    },
+    {
+      "key": "scene-2",
+      "text": "Random scene 2 created at 8:20:09 PM",
+      "events": [],
+      "connections": []
+    },
+    {
+      "key": "scene-3",
+      "text": "Random scene 3 created at 8:20:09 PM",
+      "events": [],
+      "connections": []
+    },
+    {
+      "key": "scene-4",
+      "text": "Random scene 4 created at 8:20:10 PM",
+      "events": [],
+      "connections": []
+    },
+    {
+      "key": "scene-5",
+      "text": "Random scene 5 created at 8:20:10 PM",
+      "events": [],
+      "connections": []
+    },
+    {
+      "key": "scene-6",
+      "text": "New scene created at 9:01:02 PM",
+      "events": [],
+      "connections": []
+    },
+    {
+      "key": "scene-7",
+      "text": "New scene created at 9:01:02 PM",
+      "events": [],
+      "connections": []
+    },
+    {
+      "key": "scene-8",
+      "text": "New scene created at 9:01:03 PM",
+      "events": [],
+      "connections": []
+    },
+    {
+      "key": "scene-9",
+      "text": "New scene created at 10:07:13 PM",
+      "events": [],
+      "connections": []
+    },
+    {
+      "key": "scene-10",
+      "text": "New scene created at 10:13:33 PM",
+      "events": [],
+      "connections": []
+    }
+  ],
+  "mindmap": {
+    "root": {
+      "x": 766.9972789236456,
+      "y": 132.62556556822292
+    },
+    "scene-2": {
+      "x": 874.1128548069961,
+      "y": 415.0515140319045
+    },
+    "scene-3": {
+      "x": 658.7681183869306,
+      "y": 364.01225972800313
+    },
+    "scene-4": {
+      "x": 661.8091393096572,
+      "y": 438.4925603825417
+    },
+    "scene-5": {
+      "x": 874.4502606713048,
+      "y": 487.48097319392656
+    },
+    "scene-6": {
+      "x": 873.2637632261386,
+      "y": 343.5300542410148
+    },
+    "scene-7": {
+      "x": 870.6551898435517,
+      "y": 278.76318921468385
+    },
+    "scene-8": {
+      "x": 664.9428644635504,
+      "y": 290.45839017167697
+    },
+    "scene-9": {
+      "x": 661.5230477805396,
+      "y": 222.2920240104376
+    },
+    "scene-10": {
+      "x": 870.4943567910333,
+      "y": 215.21263706925762
+    }
+  },
+  "attributes": {}
+}

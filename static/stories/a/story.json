@@ -1,0 +1,22 @@
+{
+  "name": "a",
+  "description": "A new story",
+  "keywords": [],
+  "isLocked": false,
+  "events": [],
+  "scenes": [
+    {
+      "key": "root",
+      "text": "Your story begins here...",
+      "events": [],
+      "connections": []
+    }
+  ],
+  "mindmap": {
+    "root": {
+      "x": -68.99466700593814,
+      "y": -99.99227102309862
+    }
+  },
+  "attributes": {}
+}

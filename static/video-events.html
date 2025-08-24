@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Event Listener POC: The Grand Finale Detector (Now with Autoplay Magic!)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .video-container {
+            max-width: 800px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        video {
+            width: 100%;
+            border-radius: 4px;
+        }
+        #status {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <h1>Proof of Concept: Video "Ended" Event Listener (Autoplay Edition)</h1>
+        <p>Watch this short video clip auto-magically start playing (we've added 'autoplay', 'muted', and 'playsinline' to dodge browser gremlins—because who wants their video to "pause" on fun?). When it finishes, we'll catch the 'ended' event and update the status below. Geek out responsibly!</p>
+        <video id="myVideo" controls autoplay muted playsinline>
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            Your browser doesn't support the video tag. Time to upgrade—don't let your tech "end" prematurely!
+        </video>
+        <p id="status">Status: Waiting for the grand finale...</p>
+    </div>
+
+    <script>
+        // Modern JS magic incoming! We're listening for the video to "end" its performance.
+        const video = document.getElementById('myVideo');
+        const status = document.getElementById('status');
+
+        video.addEventListener('ended', () => {
+            status.textContent = 'Status: Video has ended! 🎉 Time to rewind or binge-watch more.';
+            console.log('Video playback completed. Proof: Concept achieved!');
+            // You could trigger confetti, load another video, or alert the world here.
+            // For fun: alert("The end? Or just the beginning of more events?");
+        });
+
+        // Bonus: Log when it starts playing, because why not?
+        video.addEventListener('play', () => {
+            console.log('Video started playing. Let the show begin!');
+        });
+    </script>
+</body>
+</html>

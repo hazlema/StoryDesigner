@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Play</title>
+	<script>
+		const events = [
+			"1.mp4",
+			"sound.wav",
+			"2.mp4"
+		]
+
+		const createElement = (tag, src) => {
+			let dv = document.createElement(tag);
+			dv.src = src;
+			document.getElementById('content').appendChild(dv);
+			return dv;
+		}
+
+		document.addEventListener('DOMContentLoaded', () => {
+			createElement('video', '1.mp4');
+			dv.play();
+		})
+	</script>
+
+</head>
+<body>
+	<div id="content"></div>
+</body>
+</html>

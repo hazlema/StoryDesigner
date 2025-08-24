@@ -1,0 +1,35 @@
+🧝‍♀️✨🏰 WELCOME TO THE ENCHANTED REALM OF STORYDESIGNER! 🏰✨🧝‍♀️
+
+Greetings, Noble Storyteller!
+
+The ancient Elven Council has received your request to join our mystical community of tale-weavers and dream-shapers. Your creative spirit calls to us from across the digital realms! 🌟
+
+But first, as is tradition in all magical realms, we must verify that you are indeed the keeper of this enchanted email address. The spell is simple, but essential for protecting our sacred storytelling sanctuary.
+
+🗝️ CONFIRM YOUR MAGICAL IDENTITY 🗝️
+{{ .ConfirmationURL }}
+
+✨ WHAT AWAITS YOU IN OUR REALM ✨
+
+📚 Craft infinite tales with our magical Story Editor
+🎭 Join the Community Hub where storytellers gather  
+🎨 Summon images with our AI-powered FAL.ai integration
+🗺️ Visualize your story's journey with enchanted mindmaps
+🤖 Collaborate with our wise AI companions
+
+⏰ IMPORTANT: This magical confirmation link will expire in 24 hours, so don't let it slip away into the ethereal mists!
+
+Once confirmed, you'll be transported directly to our Community Hub, where fellow storytellers await your unique voice and creative magic.
+
+May your stories shine bright and your imagination soar! 🌙⭐
+
+~ The Elven Council of StoryDesigner ~
+
+═══════════════════════════════════════════════════════════
+
+StoryDesigner • Where Magic Meets Technology • storydesigner.ai
+
+P.S. If you didn't request this account, you can safely ignore this message. No magic will be cast upon you! 😉
+
+If you're having trouble clicking the confirmation link, copy and paste this URL into your browser:
+{{ .ConfirmationURL }}

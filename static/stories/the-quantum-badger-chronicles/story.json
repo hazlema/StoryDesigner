@@ -1,0 +1,92 @@
+{
+  "name": "The Quantum Badger Chronicles",
+  "description": "",
+  "keywords": [],
+  "isLocked": false,
+  "events": [
+    {
+      "key": "quantum_discovery_quantum-badger_1755780811113",
+      "event": "autostart",
+      "source": "quantum_discovery",
+      "media": "quantum-badger.jpg",
+      "attributes": {}
+    },
+    {
+      "key": "parallel_universe_multiverse_1755780811113",
+      "event": "after",
+      "source": "parallel_universe",
+      "media": "multiverse.jpg",
+      "attributes": {}
+    },
+    {
+      "key": "time_paradox_time-vortex_1755780811113",
+      "event": "after",
+      "source": "time_paradox",
+      "media": "time-vortex.jpg",
+      "attributes": {}
+    }
+  ],
+  "scenes": [
+    {
+      "key": "quantum_discovery",
+      "text": "Deep in the CERN laboratories, a badger discovers quantum entanglement...",
+      "events": [
+        {
+          "key": "quantum_discovery_quantum-badger_1755780811113",
+          "event": "autostart",
+          "source": "quantum_discovery",
+          "media": "quantum-badger-scientist.jpg",
+          "attributes": {}
+        }
+      ],
+      "connections": [
+        "parallel_universe"
+      ]
+    },
+    {
+      "key": "parallel_universe",
+      "text": "The badger realizes it exists in multiple dimensions simultaneously!",
+      "events": [
+        {
+          "key": "parallel_universe_multiverse_1755780811113",
+          "event": "after",
+          "source": "parallel_universe",
+          "media": "multiverse.jpg",
+          "attributes": {}
+        }
+      ],
+      "connections": [
+        "time_paradox"
+      ]
+    },
+    {
+      "key": "time_paradox",
+      "text": "Using quantum tunneling, the badger must save all timelines...",
+      "events": [
+        {
+          "key": "time_paradox_time-vortex_1755780811113",
+          "event": "after",
+          "source": "time_paradox",
+          "media": "time-vortex.jpg",
+          "attributes": {}
+        }
+      ],
+      "connections": []
+    }
+  ],
+  "mindmap": {
+    "quantum_discovery": {
+      "x": 1379.6004637386143,
+      "y": 264.1960582217803
+    },
+    "parallel_universe": {
+      "x": 906.6229550613973,
+      "y": 637.1850057848113
+    },
+    "time_paradox": {
+      "x": 347.6124436528112,
+      "y": 258.2005410283831
+    }
+  },
+  "attributes": {}
+}

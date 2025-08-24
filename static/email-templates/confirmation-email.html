@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Your StoryDesigner Account</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 2px solid #gold;
+            position: relative;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #e8f4fd;
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+        }
+        .title {
+            color: #2c5282;
+            font-size: 28px;
+            margin: 20px 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .magical-border {
+            border: 1px solid #d4d4aa;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+            background: linear-gradient(145deg, #f8fafc, #e2e8f0);
+            position: relative;
+        }
+        .magical-border::before {
+            content: "✨";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: white;
+            padding: 0 10px;
+            font-size: 20px;
+        }
+        .confirm-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            padding: 15px 35px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 18px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            margin: 20px 0;
+        }
+        .confirm-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(102, 126, 234, 0.6);
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            color: #718096;
+            font-size: 14px;
+        }
+        .signature {
+            font-style: italic;
+            margin-top: 25px;
+            text-align: right;
+            color: #2c5282;
+        }
+        .emoji-decoration {
+            font-size: 24px;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="font-size: 48px; margin-bottom: 10px;">🧝‍♀️✨🏰</div>
+            <h1 class="title">Welcome to the Enchanted Realm of StoryDesigner!</h1>
+        </div>
+        
+        <div class="magical-border">
+            <p><strong>Greetings, Noble Storyteller!</strong></p>
+            
+            <p>The ancient Elven Council has received your request to join our mystical community of tale-weavers and dream-shapers. Your creative spirit calls to us from across the digital realms! <span class="emoji-decoration">🌟</span></p>
+            
+            <p>But first, as is tradition in all magical realms, we must verify that you are indeed the keeper of this enchanted email address. The spell is simple, but essential for protecting our sacred storytelling sanctuary.</p>
+        </div>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{ .ConfirmationURL }}" class="confirm-button">
+                <span class="emoji-decoration">🗝️</span> Confirm Your Magical Identity <span class="emoji-decoration">🗝️</span>
+            </a>
+        </div>
+        
+        <div class="magical-border">
+            <p><strong>What Awaits You in Our Realm:</strong></p>
+            <ul style="margin-left: 20px;">
+                <li><span class="emoji-decoration">📚</span> Craft infinite tales with our magical Story Editor</li>
+                <li><span class="emoji-decoration">🎭</span> Join the Community Hub where storytellers gather</li>
+                <li><span class="emoji-decoration">🎨</span> Summon images with our AI-powered FAL.ai integration</li>
+                <li><span class="emoji-decoration">🗺️</span> Visualize your story's journey with enchanted mindmaps</li>
+                <li><span class="emoji-decoration">🤖</span> Collaborate with our wise AI companions</li>
+            </ul>
+        </div>
+        
+        <p><em>Remember:</em> This magical confirmation link will expire in 24 hours, so don't let it slip away into the ethereal mists! <span class="emoji-decoration">⏰</span></p>
+        
+        <p>Once confirmed, you'll be transported directly to our Community Hub, where fellow storytellers await your unique voice and creative magic.</p>
+        
+        <div class="signature">
+            <p>May your stories shine bright and your imagination soar! <span class="emoji-decoration">🌙⭐</span></p>
+            <p><strong>~ The Elven Council of StoryDesigner ~</strong></p>
+            <p style="font-size: 12px; color: #718096; margin-top: 15px;">P.S. If you didn't request this account, you can safely ignore this message. No magic will be cast upon you! <span class="emoji-decoration">😉</span></p>
+        </div>
+        
+        <div class="footer">
+            <p>StoryDesigner • Where Magic Meets Technology • <a href="https://storydesigner.ai" style="color: #667eea;">storydesigner.ai</a></p>
+            <p style="margin-top: 10px; font-size: 12px;">
+                If the button above doesn't work, copy and paste this link into your browser:<br>
+                <a href="{{ .ConfirmationURL }}" style="color: #667eea; word-break: break-all;">{{ .ConfirmationURL }}</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
