@@ -156,10 +156,13 @@
 		loading = true;
 		error = '';
 
+		const params = new URLSearchParams(window.location.search);
+		const redirectTo = params.get('redirectTo') || '/community';
+		const callback = `${window.location.origin}/auth/callback?redirectTo=${encodeURIComponent(redirectTo)}`;
 		const { error: authError } = await supabase.auth.signInWithOAuth({
 			provider: 'google',
 			options: {
-				redirectTo: `${window.location.origin}/auth/callback`
+				redirectTo: callback
 			}
 		});
 

@@ -27,14 +27,22 @@
 	});
 </script>
 
-<!-- User Profile -->
 {#if page.data.user}
 	<div class="relative" bind:this={profileContainer}>
 		<button class="flex items-center gap-2" onclick={() => (showProfilePopup = !showProfilePopup)}>
 			{#if page.data.user.user_metadata?.avatar_url}
-				<img src={page.data.user.user_metadata.avatar_url} alt="User Avatar" class="size-8 rounded-full" />
+				<img 
+					src={page.data.user.user_metadata.avatar_url} 
+					alt="" 
+					class="size-8 rounded-full object-cover"
+					onerror={(e) => { e.target.src = '/images/blank-avatar.jpg'; }}
+				/>
 			{:else}
-				<img src="/images/blank-avatar.jpg" alt="User Avatar" class="size-8 rounded-full" />
+				<div class="size-8 rounded-full bg-primary/10 flex items-center justify-center">
+					<span class="text-xs font-medium text-primary">
+						{page.data.user.email?.[0]?.toUpperCase() || '?'}
+					</span>
+				</div>
 			{/if}
 		</button>
 		{#if showProfilePopup}

@@ -180,3 +180,4 @@ Shared database operations used by both web interface and AI command interface:
 - `play.html` - Standalone story player
 - `video-events.html` - Video event handling utilities
 - Story assets stored in `/static/stories/[slug]/`
+- Authentication is a server side thing

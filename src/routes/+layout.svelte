@@ -14,9 +14,11 @@
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange(async (event, session) => {
+			console.log('[layout] auth event:', event, 'hasSession:', !!session)
 			if (event === 'SIGNED_IN') {
 				if (session?.user) {
-					await ensureUserProfile(session.user);
+					console.log('[layout] ensuring profile for user:', session.user.id)
+					ensureUserProfile(session.user).catch(() => {})
 				}
 				invalidate('supabase:auth')
 			} else if (event === 'SIGNED_OUT') {
@@ -27,6 +29,7 @@
 		// Also check on initial load if user is already signed in
 		const checkInitialUser = async () => {
 			const { data: { user } } = await supabase.auth.getUser();
+			console.log('[layout] initial user:', user?.id)
 			if (user) ensureUserProfile(user).catch(() => {});
 		};
 		

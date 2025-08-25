@@ -11,19 +11,9 @@
 	let loading = $state(false);
 	let message = $state('');
 
-	async function quickLogout() {
-		loading = true;
-		message = '';
-		try {
-			await supabase.auth.signOut();
-			await invalidate('supabase:auth');
-			message = '✅ Logged out successfully';
-			setTimeout(() => goto('/auth/login'), 1000);
-		} catch (error) {
-			message = `❌ Logout failed: ${error}`;
-		} finally {
-			loading = false;
-		}
+	// DONT CHANGE THIS!! GOTO DOESN'T WORK HERE
+	function quickLogout() {
+		document.location.href = "/auth/logout"
 	}
 
 	async function deleteCurrentUser() {
@@ -63,32 +53,9 @@
 		}
 	}
 
-	async function clearSession() {
-		loading = true;
-		message = '';
-		try {
-			await supabase.auth.signOut();
-			localStorage.clear();
-			sessionStorage.clear();
-			await invalidate('supabase:auth');
-			message = '✅ Session cleared';
-			setTimeout(() => location.reload(), 1000);
-		} catch (error) {
-			message = `❌ Error clearing session: ${error}`;
-		} finally {
-			loading = false;
-		}
-	}
-
-	function quickTestAccounts() {
-		message = `📋 Quick Test Accounts:
-• test1@storydesigner.dev / test123
-• test2@storydesigner.dev / test123  
-• test3@storydesigner.dev / test123`;
-		setTimeout(() => message = '', 5000);
-	}
-	const redirect = (url : string) => {
-		goto(url);
+	function clearSession() {
+		// Use the proper logout route instead of handling it manually
+		goto('/auth/logout');
 	}
 
 </script>
@@ -161,24 +128,6 @@
 			Clear Session
 		</Button>
 		
-		<Button
-			variant="outline"
-			size="sm"
-			onclick={quickTestAccounts}
-			class="text-xs h-7"
-		>
-			📋 Test Accounts
-		</Button>
-
-		<Button
-			variant="outline"
-			size="sm"
-			onclick={() => redirect("/auth/login")}
-			class="text-xs h-7"
-		>
-			Login
-		</Button>
-
 		<Button
 			variant="outline"
 			size="sm"
