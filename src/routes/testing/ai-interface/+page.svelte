@@ -173,7 +173,7 @@
     <div class="bg-card text-card-foreground rounded-lg p-4 mb-6 border border-border">
         <h3 class="font-bold mb-3">🚀 Quick Test Commands</h3>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
-            {#each testCommands as command}
+            {#each testCommands as command (command)}
                 <button
                     onclick={() => sendCommand(command)}
                     disabled={connectionStatus !== 'Connected'}
@@ -236,7 +236,7 @@
                 {#if messages.length === 0}
                     <div class="text-muted-foreground">No messages yet. Connect to server and send a command to get started.</div>
                 {:else}
-                    {#each messages as message}
+                    {#each messages as message (message)}
                         <div class="mb-2 flex">
                             <span class="text-muted-foreground mr-2">[{message.timestamp}]</span>
                             <span class="mr-2"

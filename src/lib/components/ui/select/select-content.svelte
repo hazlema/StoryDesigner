@@ -2,7 +2,7 @@
 	import { Select as SelectPrimitive } from "bits-ui";
 	import SelectScrollUpButton from "./select-scroll-up-button.svelte";
 	import SelectScrollDownButton from "./select-scroll-down-button.svelte";
-	import { cn, type WithoutChild } from "$lib/utils.js";
+	import { cn } from "$lib/utils.js";
 
 	let {
 		ref = $bindable(null),
@@ -11,8 +11,11 @@
 		portalProps,
 		children,
 		...restProps
-	}: WithoutChild<SelectPrimitive.ContentProps> & {
+	}: SelectPrimitive.ContentProps & {
+		ref?: any;
+		class?: string;
 		portalProps?: SelectPrimitive.PortalProps;
+		children?: any;
 	} = $props();
 </script>
 

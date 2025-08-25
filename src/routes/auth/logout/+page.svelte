@@ -31,16 +31,16 @@
 
 <div class="text-center">
 	{#if status === 'processing'}
-		<div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
-		<h2 class="text-xl font-semibold text-gray-900 mb-2">Signing you out...</h2>
-		<p class="text-gray-600">Please wait</p>
+		<div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+		<h2 class="text-xl font-semibold text-foreground mb-2">Signing you out...</h2>
+		<p class="text-muted-foreground">Please wait</p>
 	{:else}
-		<div class="text-green-600 mb-4">
+		<div class="text-foreground mb-4">
 			<svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
 			</svg>
 		</div>
-		<h2 class="text-xl font-semibold text-gray-900 mb-2">Successfully signed out</h2>
-		<p class="text-gray-600">Redirecting you to the home page...</p>
+		<h2 class="text-xl font-semibold text-foreground mb-2">Successfully signed out</h2>
+		<p class="text-muted-foreground">Redirecting you to the home page...</p>
 	{/if}
 </div>

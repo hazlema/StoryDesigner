@@ -1,15 +1,14 @@
 <script lang="ts">
-	import '../../app.css';
+	import SimpleHeader from '$lib/components/simple-header.svelte';
+	import SimpleFooter from '$lib/components/simple-footer.svelte';
 	
-	function goBack() {
-		history.go(-1)
-	}
-
 	let { children } = $props();
 </script>
 
-<div class="w-full bg-card  p-3 border-b border-border">
-	<button onclick={() => goBack()}>← Go Back</button>
-</div>
+<SimpleHeader />
 
-{@render children?.()}
+<main class="min-h-screen">
+	{@render children?.()}
+</main>
+
+<SimpleFooter />

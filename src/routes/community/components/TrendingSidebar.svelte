@@ -36,7 +36,7 @@
 			</CardTitle>
 		</CardHeader>
 		<CardContent class="space-y-3">
-			{#each trendingTopics as topic, index}
+			{#each trendingTopics as topic, index (topic.name)}
 				<Button 
 					variant="ghost" 
 					class="w-full justify-start gap-3 h-auto py-2 hover:bg-muted/80"
@@ -67,7 +67,7 @@
 			</CardTitle>
 		</CardHeader>
 		<CardContent class="space-y-3">
-			{#each activeWriters as writer}
+			{#each activeWriters as writer (writer.name)}
 				<div class="flex items-center gap-3">
 					<div class="relative">
 						<div class="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
@@ -76,7 +76,7 @@
 							</span>
 						</div>
 						{#if writer.online}
-							<div class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></div>
+							<div class="absolute -bottom-1 -right-1 w-3 h-3 bg-accent rounded-full border-2 border-background"></div>
 						{/if}
 					</div>
 					<div class="flex-1">
@@ -99,7 +99,7 @@
 			</CardTitle>
 		</CardHeader>
 		<CardContent class="space-y-3">
-			{#each upcomingEvents as event}
+			{#each upcomingEvents as event (event.name)}
 				<div class="border rounded-lg p-3 hover:bg-muted/50 transition-colors cursor-pointer">
 					<div class="font-medium text-sm">{event.name}</div>
 					<div class="text-xs text-muted-foreground mt-1">

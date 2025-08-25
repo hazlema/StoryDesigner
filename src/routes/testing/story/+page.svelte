@@ -247,7 +247,7 @@
 		<div class="border border-border rounded-lg p-4 bg-card text-card-foreground">
 			<h2 class="text-xl font-semibold mb-4">Events ({storyInfo.events?.length || 0})</h2>
 			<div class="space-y-2 max-h-60 overflow-y-auto">
-				{#each storyInfo.events || [] as event}
+				{#each storyInfo.events || [] as event (event.key)}
 					<div class="border border-border rounded p-2 text-sm">
 						<div><strong>Key:</strong> {event.key}</div>
 						<div><strong>Type:</strong> {event.event}</div>
@@ -262,7 +262,7 @@
 		<div class="border border-border rounded-lg p-4 bg-card text-card-foreground">
 			<h2 class="text-xl font-semibold mb-4">Scenes ({storyInfo.scenes?.length || 0})</h2>
 			<div class="space-y-2 max-h-60 overflow-y-auto">
-				{#each storyInfo.scenes || [] as scene}
+				{#each storyInfo.scenes || [] as scene (scene.key)}
 					<div class="border border-border rounded p-2 text-sm">
 						<div><strong>Key:</strong> {scene.key}</div>
 						<div><strong>Text:</strong> {scene.text.substring(0, 50)}...</div>
@@ -297,7 +297,7 @@
 					<div class="text-center py-4 text-muted-foreground">No stories found</div>
 				{:else}
 					<div class="space-y-2 max-h-60 overflow-y-auto">
-						{#each availableStories as storyItem}
+						{#each availableStories as storyItem (storyItem.slug)}
 							<button
 								onclick={() => loadSelectedStory(storyItem.slug)}
 								class="w-full text-left p-3 border border-border rounded-lg bg-card text-card-foreground hover:bg-muted transition-colors"

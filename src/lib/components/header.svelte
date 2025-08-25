@@ -4,6 +4,7 @@
 	import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "$lib/components/ui/breadcrumb";
 	import { PanelLeftIcon, BookOpenIcon, BrainIcon, WandIcon } from "@lucide/svelte";
 	import ThemeSwitcher from '$lib/components/theme-switcher.svelte';
+	import UserProfile from '$lib/components/UserProfile.svelte';
 	import { browser } from '$app/environment';
 	import { iStories } from '$lib/classes/iStory';
 	import { iScenes } from '$lib/classes/iScene';
@@ -35,6 +36,7 @@
 	
 	// Fal Generator state
 	let showFalGenerator = $state(false);
+
 
 
 	// Handle slug loaded events
@@ -79,6 +81,7 @@
 		console.log('🍞 BREADCRUMBS DERIVED - Final breadcrumbs:', result);
 		return result;
 	});
+
 
 	onMount(() => {
 		// Load story immediately with the provided slug
@@ -131,16 +134,6 @@
 
 	<Separator orientation="vertical" class="data-[orientation=vertical]:h-1/3" />
 
-	<!-- Logo -->
-	<div class="flex items-center gap-2">
-		<div class="size-8 bg-gradient-to-br from-primary to-primary/70 rounded-lg flex items-center justify-center">
-			<BookOpenIcon class="size-5 text-primary-foreground" />
-		</div>
-		<span class="font-bold text-lg bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">StoryDesigner</span>
-	</div>
-
-	<Separator orientation="vertical" class="data-[orientation=vertical]:h-1/3" />
-
 	<!-- Breadcrumb Navigation -->
 	<Breadcrumb>
 		<BreadcrumbList>
@@ -186,6 +179,9 @@
 
 	<!-- Theme Switcher -->
 	<ThemeSwitcher />
+
+	<!-- User Profile -->
+	<UserProfile />
 </header>
 
 <!-- AI Notebook Dialog -->

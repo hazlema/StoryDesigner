@@ -51,7 +51,7 @@
 		<p>Testing connections...</p>
 	{:else}
 		<div class="space-y-2 font-mono text-sm">
-			{#each results as result}
+			{#each results as result, index (index)}
 				<div>{result}</div>
 			{/each}
 		</div>

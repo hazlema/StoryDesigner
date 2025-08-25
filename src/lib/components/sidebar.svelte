@@ -19,7 +19,13 @@
     import { iScenes } from "$lib/classes/iScene"
     import { useNavigationEvents } from '$lib/events/mindmapHandlers';
     import { hub } from '$lib/events/eventsHub';
+    import { goto } from "$app/navigation"
 
+
+	const redirect = (url: string) => {
+		goto(url);
+	}
+	
     // Props
     let { storySlug } = $props<{ storySlug: string }>();
 
@@ -141,12 +147,15 @@
 <Sidebar collapsible="offcanvas" class="border-r">
     <!-- Sidebar Header – the crown jewel of your enchanted UI! -->
     <SidebarHeader class="border-b border-sidebar-border h-16 flex-row items-center px-4">
-        <div class="flex items-center gap-2">
-            <div class="size-6 bg-gradient-to-br from-primary to-primary/70 rounded flex items-center justify-center">
-                <FileTextIcon class="size-3 text-primary-foreground" />
-            </div>
-            <span class="font-semibold text-sidebar-foreground">StoryDesigner</span>
-        </div>
+    <div class="flex items-center gap-2">
+        <button 
+            onclick={() => redirect("/")} 
+            class="flex items-center gap-2 font-semibold text-xl text-primary hover:text-primary/80 transition-colors px-3 py-2 rounded-md hover:bg-primary/10"
+        >
+            <FileTextIcon class="size-5 text-primary" />
+            <span class="text-primary">StoryDesigner</span>
+        </button>
+    </div>
     </SidebarHeader>
 
     <!-- Sidebar Content – where the story magic unfolds! -->

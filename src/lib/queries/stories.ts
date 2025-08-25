@@ -149,7 +149,7 @@ export const incrementStoryPlayCount = async (
   supabase: SupabaseClientType,
   storyId: string
 ) => {
-  const { data: story, error } = await supabase.rpc('increment_story_play_count', {
+  const { data: story, error } = await (supabase as any).rpc('increment_story_play_count', {
     story_id: storyId
   });
 

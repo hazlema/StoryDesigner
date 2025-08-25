@@ -230,7 +230,7 @@
 				<!-- Tags -->
 				{#if post.tags.length > 0}
 					<div class="flex flex-wrap gap-1 mb-3">
-						{#each post.tags as tag}
+						{#each post.tags as tag (tag)}
 							<span class="text-xs bg-muted text-muted-foreground px-2 py-1 rounded">
 								#{tag}
 							</span>
@@ -243,7 +243,7 @@
 					<Button 
 						variant="ghost" 
 						size="sm" 
-						class="gap-2 text-muted-foreground hover:text-red-500"
+						class="gap-2 text-muted-foreground hover:text-destructive"
 						onclick={() => handleLike(post.id)}
 					>
 						<Heart class="h-4 w-4" />
@@ -252,7 +252,7 @@
 					<Button 
 						variant="ghost" 
 						size="sm" 
-						class="gap-2 text-muted-foreground hover:text-blue-500"
+						class="gap-2 text-muted-foreground hover:text-primary"
 						onclick={() => handleComment(post.id)}
 					>
 						<MessageCircle class="h-4 w-4" />
@@ -261,7 +261,7 @@
 					<Button 
 						variant="ghost" 
 						size="sm" 
-						class="gap-2 text-muted-foreground hover:text-green-500"
+						class="gap-2 text-muted-foreground hover:text-accent-foreground"
 						onclick={() => handleShare(post.id)}
 					>
 						<Share class="h-4 w-4" />
@@ -270,7 +270,7 @@
 					<Button 
 						variant="ghost" 
 						size="sm" 
-						class="gap-2 text-muted-foreground hover:text-purple-500 ml-auto"
+						class="gap-2 text-muted-foreground hover:text-secondary-foreground ml-auto"
 					>
 						<BookOpen class="h-4 w-4" />
 						Read Story

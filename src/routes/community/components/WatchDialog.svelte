@@ -39,20 +39,20 @@
 	
 	function getStatusColor(status: string) {
 		switch (status) {
-			case 'online': return 'text-green-500';
-			case 'away': return 'text-yellow-500';
-			case 'offline': return 'text-red-500';
+			case 'online': return 'text-accent';
+			case 'away': return 'text-secondary';
+			case 'offline': return 'text-destructive';
 			default: return 'text-muted-foreground';
 		}
 	}
 	
 	function getMessageTypeStyle(type: string) {
 		switch (type) {
-			case 'system': return 'text-blue-400 font-mono text-sm';
-			case 'info': return 'text-cyan-400 font-mono text-sm';
-			case 'data': return 'text-green-400 font-mono text-sm';
-			case 'status': return 'text-yellow-400 font-mono text-sm';
-			case 'user': return 'text-white font-mono text-sm';
+			case 'system': return 'text-primary font-mono text-sm';
+			case 'info': return 'text-accent-foreground font-mono text-sm';
+			case 'data': return 'text-accent font-mono text-sm';
+			case 'status': return 'text-secondary-foreground font-mono text-sm';
+			case 'user': return 'text-foreground font-mono text-sm';
 			default: return 'text-muted-foreground font-mono text-sm';
 		}
 	}
@@ -70,18 +70,18 @@
 	>
 		<!-- Dialog Content -->
 		<div 
-			class="w-[70vw] h-[80vh] bg-slate-900 border border-slate-700 rounded-lg overflow-hidden flex flex-col"
+			class="w-[70vw] h-[80vh] bg-card border border-border rounded-lg overflow-hidden flex flex-col"
 			onclick={(e) => e.stopPropagation()}
 			role="document"
 		>
 			<!-- IRC-style Header -->
-			<div class="flex items-center justify-between p-3 border-b border-slate-700 bg-slate-800 shrink-0">
+			<div class="flex items-center justify-between p-3 border-b border-border bg-muted shrink-0">
 				<div class="flex items-center gap-2">
-					<Circle class="h-3 w-3 fill-green-500 text-green-500" />
-					<span class="font-mono text-sm text-green-400">#ai-server-monitor</span>
-					<span class="text-xs text-slate-400">({connectedUsers.length} users)</span>
+					<Circle class="h-3 w-3 fill-accent text-accent" />
+					<span class="font-mono text-sm text-accent">#ai-server-monitor</span>
+					<span class="text-xs text-muted-foreground">({connectedUsers.length} users)</span>
 				</div>
-				<Button variant="ghost" size="sm" onclick={onClose} class="text-slate-400 hover:text-white">
+				<Button variant="ghost" size="sm" onclick={onClose} class="text-muted-foreground hover:text-foreground">
 					<X class="h-4 w-4" />
 				</Button>
 			</div>
@@ -89,19 +89,19 @@
 			<!-- Main IRC Interface -->
 			<div class="flex flex-1 min-h-0">
 				<!-- Users List (Left Panel) -->
-				<div class="w-48 bg-slate-800 border-r border-slate-700 flex flex-col">
-					<div class="p-3 border-b border-slate-700 shrink-0">
-						<h3 class="font-mono text-sm text-slate-300">Users</h3>
+				<div class="w-48 bg-muted border-r border-border flex flex-col">
+					<div class="p-3 border-b border-border shrink-0">
+						<h3 class="font-mono text-sm text-muted-foreground">Users</h3>
 					</div>
 					<div class="flex-1 overflow-y-auto p-2 space-y-1">
-						{#each connectedUsers as user}
-							<div class="flex items-center gap-2 px-2 py-1 rounded hover:bg-slate-700/50">
+						{#each connectedUsers as user (user.id)}
+							<div class="flex items-center gap-2 px-2 py-1 rounded hover:bg-accent/20">
 								<Circle class="h-2 w-2 fill-current {getStatusColor(user.status)}" />
-								<span class="font-mono text-xs text-slate-300">{user.name}</span>
+								<span class="font-mono text-xs text-muted-foreground">{user.name}</span>
 								{#if user.role === 'system'}
-									<span class="text-xs text-blue-400">@</span>
+									<span class="text-xs text-primary">@</span>
 								{:else if user.role === 'bot'}
-									<span class="text-xs text-cyan-400">+</span>
+									<span class="text-xs text-accent-foreground">+</span>
 								{/if}
 							</div>
 						{/each}
@@ -109,20 +109,20 @@
 				</div>
 				
 				<!-- Main Chat Area (Right Panel) -->
-				<div class="flex-1 flex flex-col bg-slate-900 min-w-0">
+				<div class="flex-1 flex flex-col bg-card min-w-0">
 					<!-- Messages Area -->
 					<div class="flex-1 overflow-y-auto p-4 space-y-2">
-						{#each messages as message}
+						{#each messages as message (message.id)}
 							<div class="flex gap-2">
-								<span class="font-mono text-xs text-slate-500 w-16 shrink-0">{message.time}</span>
-								<span class="font-mono text-xs text-slate-400 w-24 shrink-0">{message.user}:</span>
+								<span class="font-mono text-xs text-muted-foreground/70 w-16 shrink-0">{message.time}</span>
+								<span class="font-mono text-xs text-muted-foreground w-24 shrink-0">{message.user}:</span>
 								<span class="{getMessageTypeStyle(message.type)} flex-1">{message.content}</span>
 							</div>
 						{/each}
 					</div>
 					
 					<!-- Input Footer -->
-					<div class="border-t border-slate-700 p-3 bg-slate-800 shrink-0">
+					<div class="border-t border-border p-3 bg-muted shrink-0">
 						<div class="flex gap-2">
 							<input
 								bind:value={currentMessage}
@@ -133,13 +133,13 @@
 									}
 								}}
 								placeholder="Type a command or message..."
-								class="flex-1 bg-slate-900 border border-slate-600 rounded px-3 py-2 text-sm font-mono text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+								class="flex-1 bg-card border border-input rounded px-3 py-2 text-sm font-mono text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
 							/>
-							<Button onclick={sendMessage} size="sm" class="bg-blue-600 hover:bg-blue-700">
+							<Button onclick={sendMessage} size="sm" class="bg-primary hover:bg-primary/90">
 								<Send class="h-4 w-4" />
 							</Button>
 						</div>
-						<div class="flex justify-between items-center mt-2 text-xs text-slate-500 font-mono">
+						<div class="flex justify-between items-center mt-2 text-xs text-muted-foreground font-mono">
 							<span>Connected to AI Server • Monitoring active</span>
 							<span>Uptime: 23:42:15</span>
 						</div>

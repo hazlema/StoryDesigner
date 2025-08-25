@@ -392,7 +392,8 @@
 			requestAnimationFrame(() => {
 				// Get all nodes and their positions
 				const nodePositions = [];
-				cy.nodes().forEach(node => {
+				if (cy) {
+					cy.nodes().forEach(node => {
 					const pos = node.position();
 					nodePositions.push({
 						node: node,
@@ -400,7 +401,8 @@
 						y: pos.y,
 						id: node.id()
 					});
-				});
+					});
+				}
 				
 				// Fix overlaps with minimum spacing
 				const minSpacing = 120; // Minimum distance between nodes (node width + gap)
@@ -435,12 +437,14 @@
 				}
 				
 				// Save the final positions
-				cy.nodes().forEach(node => {
+				if (cy) {
+					cy.nodes().forEach(node => {
 					const pos = node.position();
-					if (story) {
-						story.mindmap[node.id()] = { x: pos.x, y: pos.y };
-					}
-				});
+						if (story) {
+							story.mindmap[node.id()] = { x: pos.x, y: pos.y };
+						}
+					});
+				}
 				
 				if (story) {
 					story.save().then(() => {
@@ -457,12 +461,14 @@
 				
 				scenesWithoutPositions.forEach((nodeData, index) => {
 					const position = smartPositions[index] || { x: 0, y: 0 };
-					const node = cy.getElementById(nodeData.scene.key);
+					if (cy) {
+						const node = cy.getElementById(nodeData.scene.key);
 					
-					if (node.length > 0) {
-						node.position(position);
-						if (story) {
-							story.mindmap[nodeData.scene.key] = position;
+						if (node.length > 0) {
+							node.position(position);
+							if (story) {
+								story.mindmap[nodeData.scene.key] = position;
+							}
 						}
 					}
 				});
@@ -549,14 +555,16 @@
 		});
 
 		// Update zoom level when user zooms
-		cy.on('zoom', () => {
-			const zoom = cy.zoom();
-			const newZoomLevel = Math.round(zoom * 100);
-			zoomLevel = newZoomLevel;
-			
-			// Emit zoom change event
-			hub.emit('mindmap.zoom.changed', { zoomLevel: newZoomLevel });
-		});
+		if (cy) {
+			cy.on('zoom', () => {
+				const zoom = cy.zoom();
+				const newZoomLevel = Math.round(zoom * 100);
+				zoomLevel = newZoomLevel;
+				
+				// Emit zoom change event
+				hub.emit('mindmap.zoom.changed', { zoomLevel: newZoomLevel });
+			});
+		}
 
 		console.log('🎯 MINDMAP: Cytoscape initialized with', nodes.length, 'nodes and', edges.length, 'edges');
 		console.log('🎯 MINDMAP: cy instance:', !!cy);

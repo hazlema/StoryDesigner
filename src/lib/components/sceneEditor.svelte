@@ -13,7 +13,7 @@
 	import MarkdownEdit from "$lib/components/markdownEdit.svelte";
 	import { SaveIcon, XIcon, PlusIcon, TrashIcon, EditIcon, SettingsIcon, PlayIcon, LinkIcon } from "@lucide/svelte";
 	import type { iScene } from "$lib/classes/iScene";
-	import type { iStory } from "$lib/classes/iStory";
+	import type { iStories } from "$lib/classes/iStory";
 	import type { iEvent } from "$lib/classes/iEvent";
 	import { iEvents } from "$lib/classes/iEvent";
 	import { generateFormattedId } from "$lib/utils";
@@ -27,7 +27,7 @@
 	}: {
 		open?: boolean;
 		scene?: iScene | null;
-		story?: iStory | null;
+		story?: iStories | null;
 		onSave?: () => void;
 	} = $props();
 
@@ -114,7 +114,7 @@
 			const data = await response.json();
 			
 			if (response.ok) {
-				mediaFiles = [...new Set(data.files || [])];
+				mediaFiles = [...new Set((data.files as string[]) || [])];
 			} else {
 				console.warn('Failed to load media files:', data.error);
 				mediaFiles = [];
@@ -170,7 +170,7 @@
 	function updateEventType(index: number, value: string) {
 		events = events.map((event, i) => {
 			if (i === index) {
-				return { ...event, event: value, source: value === 'autostart' ? '' : event.source };
+				return { ...event, event: value as 'autostart' | 'after', source: value === 'autostart' ? '' : event.source };
 			}
 			return event;
 		});
@@ -195,8 +195,8 @@
 	}
 
 	function addConnection() {
-		if (availableScenes.length > 0) {
-			const newConnection = availableScenes[0];
+		if (availableScenes().length > 0) {
+			const newConnection = availableScenes()[0];
 			if (!connections.includes(newConnection)) {
 				connections = [...connections, newConnection];
 			}
@@ -329,7 +329,7 @@
 														<select 
 															class="w-full h-8 px-2 border border-gray-300 rounded text-sm bg-white text-black"
 															value={event.event}
-															onchange={(e) => updateEventType(index, e.target.value)}
+															onchange={(e) => updateEventType(index, (e.target as HTMLSelectElement).value)}
 														>
 															<option value="autostart">autostart</option>
 															<option value="after">after</option>
@@ -346,7 +346,7 @@
 															<select 
 																class="w-full h-8 px-2 border border-gray-300 rounded text-sm bg-white text-black"
 																value={events[index].source}
-																onchange={(e) => updateEventSource(index, e.target.value)}
+																onchange={(e) => updateEventSource(index, (e.target as HTMLSelectElement).value)}
 															>
 																<option value="">Select source event...</option>
 																{#each getAvailableSourceEvents(index) as sourceEvent}
@@ -359,7 +359,7 @@
 														<select 
 															class="w-full h-8 px-2 border border-gray-300 rounded text-sm bg-white text-black"
 															value={event.media}
-															onchange={(e) => updateEventMedia(index, e.target.value)}
+															onchange={(e) => updateEventMedia(index, (e.target as HTMLSelectElement).value)}
 														>
 															{#if loadingMedia}
 																<option value="">Loading...</option>
@@ -400,7 +400,7 @@
 								size="sm" 
 								variant="outline" 
 								onclick={addConnection}
-								disabled={availableScenes.length === 0}
+								disabled={availableScenes().length === 0}
 								class="bg-white text-black border-gray-300 hover:bg-gray-100"
 							>
 								<PlusIcon class="size-4 mr-1" />
@@ -426,9 +426,9 @@
 														<select 
 															class="w-full h-9 px-3 border border-gray-300 rounded-md text-sm bg-white text-black"
 															value={connection}
-															onchange={(e) => updateConnection(index, e.target.value)}
+															onchange={(e) => updateConnection(index, (e.target as HTMLSelectElement).value)}
 														>
-															{#each availableScenes as sceneKey}
+															{#each availableScenes() as sceneKey}
 																<option value={sceneKey}>{sceneKey}</option>
 															{/each}
 														</select>

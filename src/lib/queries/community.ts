@@ -154,7 +154,7 @@ export const voteOnPost = async (
   if (error) return { vote: null, error };
 
   // Update post vote counts
-  const { error: updateError } = await supabase.rpc('update_post_votes', {
+  const { error: updateError } = await (supabase as any).rpc('update_post_votes', {
     post_id: data.target_id
   });
 

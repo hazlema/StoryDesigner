@@ -5,18 +5,20 @@ import type { Database } from '$lib/database.types'
 
 declare global {
 	namespace App {
+
 		interface Locals {
 			supabase: SupabaseClient<Database>
-			getSession(): Promise<Session | null>
+			safeGetSession(): Promise<{ session: Session | null; user: Session['user'] | null }>
 			user: Session['user'] | null
+			session: Session | null
 		}
+
 		interface PageData {
 			session: Session | null
 			user: Session['user'] | null
 		}
-		// interface Error {}
-		// interface Platform {}
+
 	}
 }
 
-export {};
+export { };

@@ -65,8 +65,8 @@ export class EventBus extends EventTarget {
     }));
   }
 
-  // Type-safe event listener methods
-  addEventListener<K extends keyof EventMap>(
+  // Type-safe event listener methods (renamed to avoid EventTarget conflicts)
+  on<K extends keyof EventMap>(
     type: K, 
     listener: (event: CustomEvent<EventMap[K]>) => void,
     options?: boolean | AddEventListenerOptions
@@ -74,7 +74,7 @@ export class EventBus extends EventTarget {
     super.addEventListener(type as string, listener as EventListener, options);
   }
 
-  removeEventListener<K extends keyof EventMap>(
+  off<K extends keyof EventMap>(
     type: K, 
     listener: (event: CustomEvent<EventMap[K]>) => void,
     options?: boolean | EventListenerOptions

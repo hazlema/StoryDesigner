@@ -2,7 +2,7 @@
   import { defaultTemplates, type PromptTemplate } from '$lib/services/promptEnhancer';
   import { Button } from '$lib/components/ui/button';
   import { Card, CardContent, CardHeader, CardTitle } from '$lib/components/ui/card';
-  
+
   let templates = $state([...defaultTemplates]);
   let selectedTemplate: PromptTemplate | null = $state(null);
   let editingTemplate: PromptTemplate | null = $state(null);
@@ -100,28 +100,31 @@
           <CardContent class="space-y-4">
             <!-- Name -->
             <div>
-              <label class="block text-sm font-medium mb-1">Name</label>
+              <label for="template-name" class="block text-sm font-medium mb-1">Name</label>
               <input
+                id="template-name"
                 bind:value={editingTemplate.name}
-                class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                class="w-full p-2 border rounded focus:ring-2 focus:ring-ring focus:border-transparent"
               />
             </div>
             
             <!-- Description -->
             <div>
-              <label class="block text-sm font-medium mb-1">Description</label>
+              <label for="template-description" class="block text-sm font-medium mb-1">Description</label>
               <input
+                id="template-description"
                 bind:value={editingTemplate.description}
-                class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                class="w-full p-2 border rounded focus:ring-2 focus:ring-ring focus:border-transparent"
               />
             </div>
             
             <!-- Template -->
             <div class="flex-1">
-              <label class="block text-sm font-medium mb-1">Template</label>
+              <label for="template-content" class="block text-sm font-medium mb-1">Template</label>
               <textarea
+                id="template-content"
                 bind:value={editingTemplate.template}
-                class="w-full h-64 p-3 border rounded font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                class="w-full h-64 p-3 border rounded font-mono text-sm focus:ring-2 focus:ring-ring focus:border-transparent"
                 placeholder="Enter your template here..."
               ></textarea>
               <div class="text-xs text-muted-foreground mt-1">

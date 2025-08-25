@@ -4,6 +4,9 @@
 	import SimpleHeader from '$lib/components/simple-header.svelte';
 	import SimpleFooter from '$lib/components/simple-footer.svelte';
 
+	let { data } = $props();
+	console.log(data.user?.user_metadata?.username);
+	
 	function goToEdit() {
 		goto('/edit');
 	}

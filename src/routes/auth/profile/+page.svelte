@@ -2,10 +2,11 @@
 	import { onMount } from 'svelte';
 	import { supabase, getUserProfile, updateUserProfile } from '$lib/supabase';
 	import type { PageData } from './$types';
+	import type { Database } from '$lib/database.types';
 
 	let { data }: { data: PageData } = $props();
 
-	let profile = $state(null);
+	let profile = $state<Database['public']['Tables']['users']['Row'] | null>(null);
 	let loading = $state(true);
 	let updating = $state(false);
 	let message = $state('');
@@ -25,7 +26,7 @@
 
 	const loadProfile = async (userId: string) => {
 		loading = true;
-		profile = await getUserProfile(userId);
+		profile = await getUserProfile(userId) as Database['public']['Tables']['users']['Row'] | null;
 		
 		if (profile) {
 			username = profile.username || '';
@@ -61,7 +62,7 @@
 		message = '';
 
 		// Check if username is already taken by someone else
-		if (username.toLowerCase() !== profile?.username) {
+		if (profile && username.toLowerCase() !== profile.username) {
 			const { data: existingUser } = await supabase
 				.from('users')
 				.select('username')
@@ -75,7 +76,7 @@
 			}
 		}
 
-		const updates = {
+		const updates: Database['public']['Tables']['users']['Update'] = {
 			username: username.toLowerCase(),
 			bio: bio.trim() || null,
 			location: location.trim() || null,

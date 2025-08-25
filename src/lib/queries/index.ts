@@ -13,23 +13,7 @@ export {
   // User essentials
   getUserProfile, 
   ensureUserProfile,
-  updateUserProfile,
-  
-  // Community essentials  
-  createPost,
-  getPosts,
-  createReply,
-  voteOnPost,
-  
-  // Story essentials
-  createStory,
-  getStories,
-  getStoryBySlug,
-  
-  // Marketplace essentials
-  createMarketplaceItem,
-  getMarketplaceItems,
-  purchaseMarketplaceItem
+  updateUserProfile
 } from './users';
 export { createPost, getPosts, createReply, voteOnPost } from './community';
 export { createStory, getStories, getStoryBySlug } from './stories';

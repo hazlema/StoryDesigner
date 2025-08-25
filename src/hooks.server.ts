@@ -1,91 +1,115 @@
 import { createServerClient } from '@supabase/ssr'
 import { type Handle, redirect } from '@sveltejs/kit'
 import { sequence } from '@sveltejs/kit/hooks'
+
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public'
 
 const supabase: Handle = async ({ event, resolve }) => {
   /**
    * Creates a Supabase client specific to this server request.
-   * 
+   *
    * The Supabase client gets the Auth token from the request cookies.
    */
   event.locals.supabase = createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
     cookies: {
-      get: (key) => event.cookies.get(key),
+      getAll: () => event.cookies.getAll(),
       /**
-       * SvelteKit's cookies.set defaults to httpOnly: true, secure: true, and sameSite: 'lax'.
-       * If you need to customize the cookie setting, you can override the default setting.
-       * For example, some edge functions don't support httpOnly cookies.
-       * In that case, you can set httpOnly to false in the cookie setting.
+       * SvelteKit's cookies API requires `path` to be explicitly set in
+       * the cookie options. Setting `path` to `/` replicates previous/
+       * standard behavior.
        */
-      set: (key, value, options) => {
-        // Ensure auth cookies are usable over HTTP in local dev to prevent auth loops
-        const isProd = process.env.NODE_ENV === 'production'
-        event.cookies.set(key, value, {
-          ...options,
-          path: '/',
-          httpOnly: options?.httpOnly ?? true,
-          sameSite: options?.sameSite ?? 'lax',
-          secure: options?.secure ?? isProd,
-        })
-      },
-      remove: (key, options) => {
-        const isProd = process.env.NODE_ENV === 'production'
-        event.cookies.delete(key, {
-          ...options,
-          path: '/',
-          httpOnly: options?.httpOnly ?? true,
-          sameSite: options?.sameSite ?? 'lax',
-          secure: options?.secure ?? isProd,
+      setAll: (cookiesToSet) => {
+        cookiesToSet.forEach(({ name, value, options }) => {
+          event.cookies.set(name, value, { ...options, path: '/' })
         })
       },
     },
   })
 
+  // Handle auth tokens that might appear on any page (email confirmations, etc.)
+  const url = new URL(event.request.url)
+  const code = url.searchParams.get('code')
+  const token_hash = url.searchParams.get('token_hash')
+  const type = url.searchParams.get('type')
+
+  if (code) {
+    // Handle PKCE code exchange
+    const { error } = await event.locals.supabase.auth.exchangeCodeForSession(code)
+    if (!error) {
+      // Redirect to clean URL without the code parameter
+      const cleanUrl = new URL(url)
+      cleanUrl.searchParams.delete('code')
+      cleanUrl.searchParams.delete('state')
+      throw redirect(302, cleanUrl.toString())
+    }
+  }
+
+  if (token_hash && type) {
+    // Handle email verification tokens
+    const { error } = await event.locals.supabase.auth.verifyOtp({ 
+      type: type as any, 
+      token_hash 
+    })
+    if (!error) {
+      // Redirect to clean URL without the token parameters  
+      const cleanUrl = new URL(url)
+      cleanUrl.searchParams.delete('token_hash')
+      cleanUrl.searchParams.delete('type')
+      cleanUrl.searchParams.delete('next')
+      throw redirect(302, cleanUrl.pathname === '/' ? '/community' : cleanUrl.toString())
+    }
+  }
+
   /**
-   * Unlike `supabase.auth.getUser()`, `getSession()` doesn't make a request to the Supabase Auth server.
-   * It just reads the JWT from the request cookies.
-   * 
-   * If you need user information that's guaranteed to be fresh, use `getUser()` instead.
+   * Unlike `supabase.auth.getSession()`, which returns the session _without_
+   * validating the JWT, this function also calls `getUser()` to validate the
+   * JWT before returning the session.
    */
-  event.locals.getSession = async () => {
+  event.locals.safeGetSession = async () => {
     const {
       data: { session },
     } = await event.locals.supabase.auth.getSession()
-    return session
+    if (!session) {
+      return { session: null, user: null }
+    }
+
+    const {
+      data: { user },
+      error,
+    } = await event.locals.supabase.auth.getUser()
+    if (error) {
+      // JWT validation has failed
+      return { session: null, user: null }
+    }
+
+    return { session, user }
   }
 
   return resolve(event, {
     filterSerializedResponseHeaders(name) {
-      return name === 'content-range'
+      /**
+       * Supabase libraries use the `content-range` and `x-supabase-api-version`
+       * headers, so we need to tell SvelteKit to pass it through.
+       */
+      return name === 'content-range' || name === 'x-supabase-api-version'
     },
   })
 }
 
 const authGuard: Handle = async ({ event, resolve }) => {
-  const session = await event.locals.getSession()
-  const url = event.url.pathname
+  const { session, user } = await event.locals.safeGetSession()
+  event.locals.session = session
+  event.locals.user = user
 
-  // Skip auth checks for auth-related routes to prevent loops
-  if (url.startsWith('/auth/') || url === '/debug-profile') {
-    return resolve(event)
+  if (!event.locals.session && event.url.pathname.startsWith('/private')) {
+    throw redirect(303, '/auth')
   }
 
-  // Protected routes that require authentication
-  const protectedRoutes = ['/community', '/edit']
-  const isProtectedRoute = protectedRoutes.some(route => url.startsWith(route))
-
-  if (isProtectedRoute && !session) {
-    // Redirect to login if trying to access protected route without auth
-    throw redirect(303, `/auth/login?redirectTo=${encodeURIComponent(url)}`)
-  }
-
-  // Add user data to locals for easy access in load functions
-  if (session) {
-    event.locals.user = session.user
+  if (event.locals.session && event.url.pathname === '/auth') {
+    throw redirect(303, '/private')
   }
 
   return resolve(event)
 }
 
-export const handle = sequence(supabase, authGuard)
+export const handle: Handle = sequence(supabase, authGuard)

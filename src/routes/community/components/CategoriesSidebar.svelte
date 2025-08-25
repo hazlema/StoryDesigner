@@ -30,7 +30,7 @@
 			<CardTitle class="text-lg">Categories</CardTitle>
 		</CardHeader>
 		<CardContent class="space-y-2">
-			{#each categories as category}
+			{#each categories as category (category.id)}
 				<Button
 					variant={selectedCategory === category.id ? 'default' : 'ghost'}
 					class="w-full justify-start gap-3 h-auto py-3"

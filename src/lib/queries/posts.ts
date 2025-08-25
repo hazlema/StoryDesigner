@@ -135,7 +135,7 @@ export const incrementPostViews = async (
   supabase: SupabaseClientType,
   postId: string
 ) => {
-  const { data: post, error } = await supabase.rpc('increment_post_views', {
+  const { data: post, error } = await (supabase as any).rpc('increment_post_views', {
     post_id: postId
   });
 

@@ -63,7 +63,7 @@
 		{#if loading}
 			<div class="text-muted-foreground">Loading...</div>
 		{:else if error}
-			<div class="text-red-400 bg-card p-3 rounded">{error}</div>
+			<div class="text-destructive bg-card p-3 rounded">{error}</div>
 		{:else if mediaFiles.length === 0}
 			<div class="bg-card text-muted-foreground">No media files found</div>
 		{:else}
@@ -72,7 +72,7 @@
 			</div>
 			
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-				{#each mediaFiles as filename}
+				{#each mediaFiles as filename (filename)}
 					{@const ext = filename.split('.').pop()?.toLowerCase()}
 					<div class="border border-border rounded p-3 bg-card text-card-foreground">
 						<div class="flex items-center gap-2">

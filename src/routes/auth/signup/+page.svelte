@@ -1,8 +1,9 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import { supabase, ensureUserProfile } from '$lib/supabase';
 	import { onMount } from 'svelte';
-
+ 
 	let email = $state('');
 	let password = $state('');
 	let confirmPassword = $state('');
@@ -10,6 +11,8 @@
 	let loading = $state(false);
 	let error = $state('');
 	let success = $state('');
+	let bannerType = $state<'success' | 'error' | ''>('');
+	let bannerMsg = $state('');
 
 	// Check if user is already logged in
 	onMount(async () => {
@@ -137,8 +140,11 @@
 			attempts++;
 		}
 
-		if (authData.session?.user) {
-			await ensureUserProfile(authData.session.user)
+		if (authData.session) {
+			const { data: { user: validated } } = await supabase.auth.getUser();
+			if (validated) {
+				await ensureUserProfile(validated)
+			}
 		}
 
 		console.log('[signup] redirecting to', redirectTo)
@@ -166,84 +172,103 @@
 	// Remove global Enter key handler to avoid duplicate submissions
 </script>
 
-<form onsubmit={(e) => { e.preventDefault(); handleSignup(); }} class="space-y-6">
-	<h2 class="text-2xl font-bold text-center text-gray-900 mb-6">Create Account</h2>
+<form method="post" use:enhance={() => {
+	return async ({ result, update }) => {
+		if (result.type === 'success') {
+			bannerType = 'success';
+			bannerMsg = String(result.data?.message ?? 'Account created! Check your email.');
+		} else if (result.type === 'failure') {
+			bannerType = 'error';
+			bannerMsg = String(result.data?.message ?? 'Signup failed.');
+		}
+		update();
+	};
+}} class="space-y-6">
+	{#if bannerType}
+		<div class={(bannerType === 'success')
+			? 'bg-accent text-accent-foreground border rounded-lg px-4 py-3 text-sm'
+			: 'bg-destructive text-foreground border rounded-lg px-4 py-3 text-sm'}>
+			{bannerMsg}
+		</div>
+	{/if}
+
+	<h2 class="text-2xl font-bold text-center text-foreground mb-6">Create Account</h2>
 
 	{#if error}
-		<div class="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm">
+		<div class="bg-destructive text-foreground border px-4 py-3 rounded-lg text-sm">
 			{error}
 		</div>
 	{/if}
 
 	{#if success}
-		<div class="bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-lg text-sm">
+		<div class="bg-accent text-accent-foreground border px-4 py-3 rounded-lg text-sm">
 			{success}
 		</div>
 	{/if}
 
 	<div class="space-y-4">
 		<div>
-			<label for="username" class="block text-sm font-medium text-gray-700 mb-1">
+			<label for="username" class="block text-sm font-medium text-foreground mb-1">
 				Username
 			</label>
 			<input
 				id="username"
 				type="text"
-				bind:value={username}
+				name="username"
 				required
 				disabled={loading}
-				class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent disabled:bg-gray-50 disabled:text-gray-500"
+				class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent disabled:bg-muted disabled:text-muted-foreground"
 				placeholder="Choose a username"
 			/>
-			<p class="text-xs text-gray-500 mt-1">
+			<p class="text-xs text-muted-foreground mt-1">
 				3-50 characters, letters, numbers, underscores, and hyphens only
 			</p>
 		</div>
 
 		<div>
-			<label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+			<label for="email" class="block text-sm font-medium text-foreground mb-1">
 				Email
 			</label>
 			<input
 				id="email"
 				type="email"
-				bind:value={email}
+				name="email"
 				required
 				disabled={loading}
-				class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent disabled:bg-gray-50 disabled:text-gray-500"
+				class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent disabled:bg-muted disabled:text-muted-foreground"
 				placeholder="Enter your email"
 			/>
 		</div>
 
 		<div>
-			<label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+			<label for="password" class="block text-sm font-medium text-foreground mb-1">
 				Password
 			</label>
 			<input
 				id="password"
 				type="password"
-				bind:value={password}
+				name="password"
 				required
 				disabled={loading}
-				class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent disabled:bg-gray-50 disabled:text-gray-500"
+				class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent disabled:bg-muted disabled:text-muted-foreground"
 				placeholder="Create a password"
 			/>
-			<p class="text-xs text-gray-500 mt-1">
+			<p class="text-xs text-muted-foreground mt-1">
 				Must be at least 6 characters
 			</p>
 		</div>
 
 		<div>
-			<label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">
+			<label for="confirmPassword" class="block text-sm font-medium text-foreground mb-1">
 				Confirm Password
 			</label>
 			<input
 				id="confirmPassword"
 				type="password"
-				bind:value={confirmPassword}
+				name="confirmPassword"
 				required
 				disabled={loading}
-				class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent disabled:bg-gray-50 disabled:text-gray-500"
+				class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent disabled:bg-muted disabled:text-muted-foreground"
 				placeholder="Confirm your password"
 			/>
 		</div>
@@ -252,7 +277,7 @@
 	<button
 		type="submit"
 		disabled={loading}
-		class="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+		class="w-full bg-primary text-primary-foreground py-2 px-4 rounded-lg font-medium hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
 	>
 		{loading ? 'Creating account...' : 'Create Account'}
 	</button>
@@ -260,10 +285,10 @@
 	<!-- Divider -->
 	<div class="relative">
 		<div class="absolute inset-0 flex items-center">
-			<div class="w-full border-t border-gray-300"></div>
+			<div class="w-full border-t border"></div>
 		</div>
 		<div class="relative flex justify-center text-sm">
-			<span class="px-2 bg-white text-gray-500">Or continue with</span>
+			<span class="px-2 bg-background text-muted-foreground">Or continue with</span>
 		</div>
 	</div>
 
@@ -272,7 +297,7 @@
 		type="button"
 		onclick={handleGoogleSignup}
 		disabled={loading}
-		class="w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+		class="w-full bg-background border text-foreground py-2 px-4 rounded-lg font-medium hover:bg-accent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
 	>
 		<svg class="w-5 h-5" viewBox="0 0 24 24">
 			<path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -284,10 +309,10 @@
 	</button>
 
 	<!-- Terms of Service -->
-	<p class="text-xs text-gray-500 text-center">
+	<p class="text-xs text-muted-foreground text-center">
 		By creating an account, you agree to our
-		<a href="/terms" class="text-indigo-600 hover:text-indigo-500">Terms of Service</a>
+		<a href="/terms" class="text-primary hover:text-primary/90">Terms of Service</a>
 		and
-		<a href="/privacy" class="text-indigo-600 hover:text-indigo-500">Privacy Policy</a>
+		<a href="/privacy" class="text-primary hover:text-primary/90">Privacy Policy</a>
 	</p>
 </form>
